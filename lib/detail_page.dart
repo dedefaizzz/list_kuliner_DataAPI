@@ -4,17 +4,11 @@ import 'package:list_kuliner/makanan.dart';
 import 'package:list_kuliner/styles.dart';
 import 'package:list_kuliner/http_helper.dart';
 
-class DetailPage extends StatefulWidget {
+class DetailPage extends StatelessWidget {
   final Makanan makanan;
-
-  DetailPage({super.key, required this.makanan});
-
-  @override
-  State<DetailPage> createState() => _DetailPageState();
-}
-
-class _DetailPageState extends State<DetailPage> {
   HttpHelper api = HttpHelper();
+
+  DetailPage({super.key, required this.makanan, required this.api});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +22,7 @@ class _DetailPageState extends State<DetailPage> {
               Stack(
                 children: [
                   Image.network(
-                    api.url + widget.makanan.gambar,
+                    api.url + makanan.gambar,
                     scale: 0.5,
                   ),
                   Container(
@@ -45,7 +39,7 @@ class _DetailPageState extends State<DetailPage> {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Text(
-                  widget.makanan.nama,
+                  makanan.nama,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -61,15 +55,15 @@ class _DetailPageState extends State<DetailPage> {
                 children: [
                   attributesIcon(
                     Icons.access_time_filled,
-                    widget.makanan.waktubuka,
+                    makanan.waktubuka,
                   ),
                   attributesIcon(
                     Icons.local_fire_department_rounded,
-                    widget.makanan.kalori,
+                    makanan.kalori,
                   ),
                   attributesIcon(
                     Icons.monetization_on,
-                    widget.makanan.harga,
+                    makanan.harga,
                   ),
                 ],
               ),
@@ -79,7 +73,7 @@ class _DetailPageState extends State<DetailPage> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Text(
-                  widget.makanan.detail,
+                  makanan.detail,
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 18),
                 ),
@@ -96,7 +90,7 @@ class _DetailPageState extends State<DetailPage> {
               SizedBox(
                 height: 100,
                 child: ListView.builder(
-                  itemCount: widget.makanan.bahan.length,
+                  itemCount: makanan.bahan.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
@@ -109,10 +103,10 @@ class _DetailPageState extends State<DetailPage> {
                       child: Column(
                         children: [
                           Image.asset(
-                            widget.makanan.bahan[index].values.first,
+                            makanan.bahan[index].values.first,
                             width: 52,
                           ),
-                          Text(widget.makanan.bahan[index].keys.first),
+                          Text(makanan.bahan[index].keys.first),
                         ],
                       ),
                     );
@@ -130,14 +124,14 @@ class _DetailPageState extends State<DetailPage> {
     return SizedBox(
       height: 150,
       child: ListView.builder(
-        itemCount: widget.makanan.gambarlain.length,
+        itemCount: makanan.gambarlain.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(widget.makanan.gambarlain[index])),
+                child: Image.asset(makanan.gambarlain[index])),
           );
         },
       ),

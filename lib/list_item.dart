@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:list_kuliner/detail_page.dart';
 import 'package:list_kuliner/makanan.dart';
 import 'package:list_kuliner/styles.dart';
+import 'package:list_kuliner/http_helper.dart';
 
 class ListItem extends StatelessWidget {
+  HttpHelper api = HttpHelper();
   final Makanan makanan;
 
-  const ListItem({super.key, required this.makanan});
+  ListItem({super.key, required this.makanan, required this.api});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +20,10 @@ class ListItem extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => DetailPage(makanan: makanan)));
+                builder: (context) => DetailPage(
+                      makanan: makanan,
+                      api: api,
+                    )));
       },
       child: Container(
         decoration: dekorasi(),
@@ -77,8 +82,8 @@ class ListItem extends StatelessWidget {
     return ClipRRect(
       // widget untuk menampilkan gambar lokal
       borderRadius: BorderRadius.all(Radius.circular(10)),
-      child: Image.asset(
-        makanan.gambar,
+      child: Image.network(
+        api.url + makanan.gambar,
         height: 75,
         width: 75,
         fit: BoxFit.cover,
