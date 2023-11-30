@@ -2,10 +2,19 @@
 import 'package:flutter/material.dart';
 import 'package:list_kuliner/makanan.dart';
 import 'package:list_kuliner/styles.dart';
+import 'package:list_kuliner/http_helper.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   final Makanan makanan;
-  const DetailPage({super.key, required this.makanan});
+
+  DetailPage({super.key, required this.makanan});
+
+  @override
+  State<DetailPage> createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  HttpHelper api = HttpHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +27,8 @@ class DetailPage extends StatelessWidget {
             children: [
               Stack(
                 children: [
-                  Image.asset(
-                    makanan.gambar,
+                  Image.network(
+                    api.url + widget.makanan.gambar,
                     scale: 0.5,
                   ),
                   Container(
@@ -36,7 +45,7 @@ class DetailPage extends StatelessWidget {
                 alignment: Alignment.center,
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Text(
-                  makanan.nama,
+                  widget.makanan.nama,
                   style: TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -52,15 +61,15 @@ class DetailPage extends StatelessWidget {
                 children: [
                   attributesIcon(
                     Icons.access_time_filled,
-                    makanan.waktubuka,
+                    widget.makanan.waktubuka,
                   ),
                   attributesIcon(
                     Icons.local_fire_department_rounded,
-                    makanan.kalori,
+                    widget.makanan.kalori,
                   ),
                   attributesIcon(
                     Icons.monetization_on,
-                    makanan.harga,
+                    widget.makanan.harga,
                   ),
                 ],
               ),
@@ -70,7 +79,7 @@ class DetailPage extends StatelessWidget {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Text(
-                  makanan.detail,
+                  widget.makanan.detail,
                   textAlign: TextAlign.justify,
                   style: TextStyle(fontSize: 18),
                 ),
@@ -87,7 +96,7 @@ class DetailPage extends StatelessWidget {
               SizedBox(
                 height: 100,
                 child: ListView.builder(
-                  itemCount: makanan.bahan.length,
+                  itemCount: widget.makanan.bahan.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
@@ -100,10 +109,10 @@ class DetailPage extends StatelessWidget {
                       child: Column(
                         children: [
                           Image.asset(
-                            makanan.bahan[index].values.first,
+                            widget.makanan.bahan[index].values.first,
                             width: 52,
                           ),
-                          Text(makanan.bahan[index].keys.first),
+                          Text(widget.makanan.bahan[index].keys.first),
                         ],
                       ),
                     );
@@ -121,14 +130,14 @@ class DetailPage extends StatelessWidget {
     return SizedBox(
       height: 150,
       child: ListView.builder(
-        itemCount: makanan.gambarlain.length,
+        itemCount: widget.makanan.gambarlain.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.asset(makanan.gambarlain[index])),
+                child: Image.asset(widget.makanan.gambarlain[index])),
           );
         },
       ),
